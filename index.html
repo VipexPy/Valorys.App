@@ -4,10 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VALORYS — Du jeu aux compétences</title>
-    <meta name="description" content="Valorys transforme les performances de jeux vidéo en compétences mesurables : score universel, titres honorifiques, profil public." />
+    <meta
+      name="description"
+      content="Valorys transforme les performances de jeux vidéo en compétences mesurables : score universel, titres honorifiques, profil public."
+    />
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
@@ -20,31 +26,53 @@
       <a href="/" class="brand">VALORYS</a>
     </header>
 
+    <!-- ========= HERO INTERACTIF ========= -->
     <main class="hero">
-      <!-- subtle background accents -->
-      <div class="halo" aria-hidden="true"></div>
-      <div class="grid-lines" aria-hidden="true"></div>
+      <h1 class="hero-title">Du jeu aux compétences.</h1>
+      <p class="hero-subtitle">Découvre ce que ton rang dit de ta valeur.</p>
 
-      <h1 class="title">
-        <span class="brand-gradient">VALORYS</span>
-      </h1>
-      <p class="subtitle">Du jeu aux compétences.</p>
+      <div class="hero-input">
+        <input
+          type="text"
+          id="rankInput"
+          placeholder="Ex : Gold IV – LoL / Ascendant – Valorant / Master – Clash Royale"
+        />
+        <button id="analyzeButton">Analyser ma valeur</button>
+      </div>
 
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#" aria-label="Suivre le projet">Suivre le projet</a>
-        <!-- Optionnel : un second CTA plus discret
-        <a class="btn btn-ghost" href="#" aria-label="Découvrir le score">Découvrir le score</a>
-        -->
+      <div class="hero-result" id="resultContainer" style="display: none;">
+        <h3 id="resultTitle"></h3>
+        <p id="resultText"></p>
+        <button id="compareButton">Comparer à d’autres jeux</button>
       </div>
     </main>
 
+    <!-- ========= FOOTER ========= -->
     <footer class="site-footer">
       <small>© <span id="year"></span> Valorys</small>
     </footer>
 
+    <!-- ========= SCRIPT BASIQUE ========= -->
     <script>
-      // année auto (aucune dépendance)
-      document.getElementById('year').textContent = new Date().getFullYear();
+      // Année dynamique
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Prépare l'animation du résultat (sera utile quand on ajoutera la logique)
+      const resultContainer = document.getElementById("resultContainer");
+      const analyzeButton = document.getElementById("analyzeButton");
+      const rankInput = document.getElementById("rankInput");
+
+      analyzeButton.addEventListener("click", () => {
+        if (!rankInput.value.trim()) return;
+
+        // Placeholder visuel simple
+        resultContainer.style.display = "block";
+        resultContainer.classList.add("show");
+        document.getElementById("resultTitle").textContent =
+          "Analyse en cours...";
+        document.getElementById("resultText").textContent =
+          "Veuillez patienter...";
+      });
     </script>
   </body>
 </html>
