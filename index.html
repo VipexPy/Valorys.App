@@ -1,16 +1,19 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valorys — Du jeu aux compétences</title>
-    <link rel="stylesheet" href="style.css" />
-    <meta name="description" content="Valorys — Du jeu aux compétences. Plateforme qui transforme les performances de jeux vidéo en compétences mesurables." />
-  </head>
-  <body>
-    <main class="hero">
-      <h1 class="title">VALORYS</h1>
-      <p class="subtitle">Du jeu aux compétences.</p>
-    </main>
-  </body>
-</html>
+<section class="hero">
+  <h1 class="hero-title">Du jeu aux compétences.</h1>
+  <p class="hero-subtitle">Découvre ce que ton rang dit de ta valeur.</p>
+
+  <div class="hero-input">
+    <input 
+      type="text" 
+      placeholder="Ex : Gold IV – LoL / Ascendant – Valorant / Master – Clash Royale" 
+      id="rankInput"
+    />
+    <button id="analyzeButton">Analyser ma valeur</button>
+  </div>
+
+  <div class="hero-result" id="resultContainer" style="display:none;">
+    <h3 id="resultTitle"></h3>
+    <p id="resultText"></p>
+    <button id="compareButton">Comparer à d’autres jeux</button>
+  </div>
+</section>
