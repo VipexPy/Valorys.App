@@ -1,0 +1,24 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  min-height: 100dvh;
+  background: radial-gradient(1200px 800px at 50% 30%, #15182a 0%, rgba(21,24,42,0) 60%),
+              linear-gradient(135deg, #0b0d17 0%, #15182a 100%);
+  color: #ffffff;
+  display: grid; place-items: center;
+  text-align: center; padding: 2rem;
+}
+.hero { display: grid; gap: 1rem; }
+.title {
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 800; letter-spacing: 0.2em;
+  background: linear-gradient(90deg, #6546e0 0%, #eacd5c 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: #cfcfe8; opacity: 0.9; font-weight: 300;
+}
+.title, .subtitle { animation: fadeIn 1.2s ease both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px) } to { opacity: 1; transform: translateY(0) } }
