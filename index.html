@@ -2,15 +2,49 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Valorys — Du jeu aux compétences</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VALORYS — Du jeu aux compétences</title>
+    <meta name="description" content="Valorys transforme les performances de jeux vidéo en compétences mesurables : score universel, titres honorifiques, profil public." />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
-    <meta name="description" content="Valorys — Du jeu aux compétences. Plateforme qui transforme les performances de jeux vidéo en compétences mesurables." />
+
+    <!-- Basic meta -->
+    <meta name="theme-color" content="#0B0D17" />
   </head>
   <body>
+    <header class="site-header" aria-label="Valorys">
+      <a href="/" class="brand">VALORYS</a>
+    </header>
+
     <main class="hero">
-      <h1 class="title">VALORYS</h1>
+      <!-- subtle background accents -->
+      <div class="halo" aria-hidden="true"></div>
+      <div class="grid-lines" aria-hidden="true"></div>
+
+      <h1 class="title">
+        <span class="brand-gradient">VALORYS</span>
+      </h1>
       <p class="subtitle">Du jeu aux compétences.</p>
+
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#" aria-label="Suivre le projet">Suivre le projet</a>
+        <!-- Optionnel : un second CTA plus discret
+        <a class="btn btn-ghost" href="#" aria-label="Découvrir le score">Découvrir le score</a>
+        -->
+      </div>
     </main>
+
+    <footer class="site-footer">
+      <small>© <span id="year"></span> Valorys</small>
+    </footer>
+
+    <script>
+      // année auto (aucune dépendance)
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
