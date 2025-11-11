@@ -311,3 +311,31 @@ body::before {
     transition: none !important;
   }
 }
+
+/* ===== Logo Valorys (tech minimal) ===== */
+.brand-logo {
+  position: fixed;
+  top: 24px;
+  left: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: transform 0.25s ease, opacity 0.3s ease;
+  opacity: 0.75;
+}
+.brand-logo:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.valorys-icon {
+  display: block;
+  height: 28px;
+  width: 28px;
+  filter: drop-shadow(0 0 6px rgba(101, 70, 224, 0.25));
+  transition: filter 0.3s ease;
+}
+.brand-logo:hover .valorys-icon {
+  filter: drop-shadow(0 0 12px rgba(234, 205, 92, 0.35));
+}
