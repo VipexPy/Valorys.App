@@ -1,57 +1,65 @@
-:root{
-  --bg:#0B0D17;
-  --violet:#6546E0;
-  --indigo:#4A61FF;
-  --gold:#EACD5C;
-  --text:#E8E9F0;
-  --muted:#A6A8B3;
-  --card:#0F1222;
-  --border:rgba(101,70,224,.35);
+:root {
+  --bg: #0b0d17;
+  --violet: #6546e0;
+  --indigo: #4a61ff;
+  --gold: #eacd5c;
+  --text: #e8e9f0;
+  --muted: #a6a8b3;
+  --card: #0f1222;
+  --border: rgba(101, 70, 224, 0.35);
 }
 
-/* ===== Page / fond ===== */
-body{
-  margin:0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol";
-  color:var(--text);
-  background: radial-gradient(1200px 800px at 50% 10%, rgba(101,70,224,.25) 0%, rgba(101,70,224,0) 60%),
-              radial-gradient(900px 600px at 80% 20%, rgba(234,205,92,.18) 0%, rgba(234,205,92,0) 55%),
-              linear-gradient(180deg, #0B0D17 0%, #080914 100%);
-  min-height:100svh;
+/* ===== Fond général ===== */
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+  background: radial-gradient(1200px 800px at 50% 10%, rgba(101, 70, 224, 0.25) 0%, rgba(101, 70, 224, 0) 60%),
+              radial-gradient(900px 600px at 80% 20%, rgba(234, 205, 92, 0.15) 0%, rgba(234, 205, 92, 0) 55%),
+              linear-gradient(180deg, #0b0d17 0%, #080914 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* Grille diagonale discrète */
-body::before{
-  content:"";
-  position:fixed; inset:0;
-  pointer-events:none;
-  background:
-    repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 1px, transparent 1px 18px);
-  mask: linear-gradient(180deg, rgba(0,0,0,.7), transparent 60%);
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 18px);
+  mask: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.4) 35%, transparent 85%);
 }
 
-/* ===== Hero ===== */
-.hero{
-  max-width:980px; margin:0 auto; padding:96px 20px 64px;
-  text-align:center; position:relative;
+/* ===== HERO ===== */
+.hero {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
 }
 
-/* Halos d'énergie subtils */
-.hero::before{
-  content:"";
-  position:absolute; inset:-10% -15% auto -15%; height:60%;
-  background: radial-gradient(600px 280px at 50% 40%, rgba(101,70,224,.25), transparent 60%),
-              radial-gradient(420px 200px at 50% 0%, rgba(234,205,92,.18), transparent 65%);
+/* Halos d’énergie subtils */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -10% -15% auto -15%;
+  height: 60%;
+  background: radial-gradient(600px 280px at 50% 40%, rgba(101, 70, 224, 0.25), transparent 60%),
+              radial-gradient(420px 200px at 50% 0%, rgba(234, 205, 92, 0.18), transparent 65%);
   filter: blur(6px);
-  pointer-events:none;
+  pointer-events: none;
 }
 
-/* ==========================
-   WORDMARK VALORYS (ajout)
-   ========================== */
+/* ===== Wordmark ===== */
 .brand-wordmark {
-  margin: 0 0 12px;
-  font-family: "Space Grotesk", Sora, Inter, sans-serif;
+  margin: 0 0 24px;
+  font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-size: clamp(64px, 10vw, 120px);
   line-height: 1;
@@ -61,189 +69,138 @@ body::before{
 }
 
 .valorys-glow {
-  /* Dégradé principal */
-  background:
-    /* couche 1 : gradient violet → doré (fixe) */
-    linear-gradient(90deg, var(--violet) 0%, var(--indigo) 50%, var(--gold) 100%),
-    /* couche 2 : faisceau lumineux qui défile (shine) */
-    linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.26) 12%, rgba(255,255,255,0) 22%);
+  background: linear-gradient(90deg, var(--violet) 0%, var(--indigo) 50%, var(--gold) 100%),
+              linear-gradient(120deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.26) 12%, rgba(255, 255, 255, 0) 22%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-
-  /* tailles & positions des 2 couches */
   background-size: 100% 100%, 220% 100%;
   background-position: 0 0, -220% 0;
-
-  /* glow doux autour du texte */
-  text-shadow:
-    0 0 8px rgba(101, 70, 224, 0.5),
-    0 0 16px rgba(234, 205, 92, 0.25);
+  text-shadow: 0 0 8px rgba(101, 70, 224, 0.5), 0 0 16px rgba(234, 205, 92, 0.25);
   filter: drop-shadow(0 0 30px rgba(101, 70, 224, 0.25));
-
-  /* 2 animations en parallèle :
-     - auraPulse (déjà définie) pour la respiration du glow
-     - shine pour le balayage lumineux dans le texte */
-  animation:
-    auraPulse 6s ease-in-out infinite alternate,
-    shine 7.5s linear infinite;
+  animation: auraPulse 6s ease-in-out infinite alternate, shine 7.5s linear infinite;
 }
 
-/* Aura douce autour du wordmark */
 .brand-wordmark::after {
   content: "";
   position: absolute;
   inset: -10px;
-  background: radial-gradient(
-    circle at 50% 60%,
-    rgba(101, 70, 224, 0.25),
-    rgba(234, 205, 92, 0.15),
-    transparent 70%
-  );
-  filter: blur(80px);
+  background: radial-gradient(circle at 50% 60%, rgba(101, 70, 224, 0.18), rgba(234, 205, 92, 0.08), transparent 70%);
+  filter: blur(60px);
   z-index: -1;
-  opacity: 0.35;
-  animation: auraFade 8s ease-in-out infinite alternate;
+  opacity: 0.25;
+  animation: auraFade 10s ease-in-out infinite alternate;
 }
 
-/* ===== Titre gradient clip (garde pour compat) ===== */
-.hero-title{
-  font-family: "Space Grotesk", Sora, Inter, sans-serif;
-  font-size: clamp(34px, 6.2vw, 64px);
-  line-height:1.05; margin:0 0 14px;
-  background: linear-gradient(90deg, var(--violet) 0%, var(--indigo) 55%, var(--gold) 110%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  text-shadow: 0 0 16px rgba(101,70,224,.22);
-  letter-spacing: .2px;
-}
-
-/* Sous-titre */
-.hero-subtitle{
-  margin:0 auto 28px; max-width:720px;
+/* ===== Tagline ===== */
+.hero-subtitle {
+  margin: 0 auto 40px;
+  max-width: 720px;
   font-size: clamp(16px, 2.3vw, 20px);
-  color:var(--muted);
+  color: var(--muted);
+  opacity: 0.9;
 }
 
-/* ===== Barre d’input “verre / glow” ===== */
-.hero-input{
-  display:flex; gap:10px; justify-content:center; align-items:center;
-  margin:24px auto 22px; padding:10px;
-  width:min(780px, 100%);
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
-  box-shadow: 0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(101,70,224,.12);
-  backdrop-filter: blur(10px);
+/* ===== Input ===== */
+.hero-input {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 24px auto 22px;
+  padding: 10px;
+  width: min(780px, 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(101, 70, 224, 0.1);
+  backdrop-filter: blur(12px);
   border-radius: 16px;
 }
 
-.hero-input input{
-  flex:1; min-width: 0;
-  padding:16px 16px;
-  font-size:16px;
-  color:var(--text);
-  background: rgba(8,9,20,.6);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  outline:none;
-  transition: border-color .2s ease, box-shadow .2s ease;
+.hero-input input {
+  flex: 1;
+  padding: 16px;
+  font-size: 16px;
+  color: var(--text);
+  background: rgba(8, 9, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.hero-input input::placeholder{ color: rgba(232,233,240,.55); }
+.hero-input input::placeholder {
+  color: rgba(232, 233, 240, 0.55);
+}
 
-.hero-input input:focus{
+.hero-input input:focus {
   border-color: var(--violet);
-  box-shadow: 0 0 0 3px rgba(101,70,224,.25), 0 0 24px rgba(101,70,224,.18) inset;
+  box-shadow: 0 0 0 3px rgba(101, 70, 224, 0.25), 0 0 24px rgba(101, 70, 224, 0.18) inset;
 }
 
-/* Bouton primaire */
-#analyzeButton{
-  padding:16px 18px;
-  font-weight:600; font-size:16px;
-  color:#0A0B14;
-  background: linear-gradient(180deg, var(--violet), #5640D5);
-  border:1px solid rgba(101,70,224,.8);
-  border-radius:12px;
-  cursor:pointer;
-  transition: transform .08s ease, box-shadow .25s ease, background .25s ease;
-  box-shadow: 0 10px 22px rgba(101,70,224,.35);
+/* ===== Bouton ===== */
+#analyzeButton {
+  padding: 16px 18px;
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  background: linear-gradient(180deg, var(--violet), #5b48e6);
+  border: 1px solid rgba(101, 70, 224, 0.6);
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform 0.1s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
-#analyzeButton:hover{
-  background: linear-gradient(180deg, #6E56F5, #5B44E6);
-  box-shadow: 0 12px 36px rgba(234,205,92,.28), 0 0 0 1px rgba(234,205,92,.35) inset;
+#analyzeButton:hover {
+  background: linear-gradient(180deg, #6f57f7, #5a47e4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 0 24px rgba(101, 70, 224, 0.3);
 }
 
-#analyzeButton:active{ transform: translateY(1px); }
-
-/* Micro-anneau doré au hover (aura) */
-#analyzeButton:hover::after{
-  content:""; position:absolute;
+#analyzeButton:active {
+  transform: translateY(1px);
 }
 
-/* ===== Carte de résultat ===== */
-.hero-result{
-  margin:18px auto 0; padding:18px 18px 16px;
-  width:min(720px, 100%);
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  border:1px solid var(--border);
-  border-radius:16px;
-  box-shadow: 0 14px 44px rgba(0,0,0,.45), 0 0 0 1px rgba(101,70,224,.12) inset;
-  opacity:0; transform: translateY(8px) scale(.98);
-  transition: opacity .35s ease, transform .35s ease, box-shadow .3s ease;
+/* ===== Résultat ===== */
+.hero-result {
+  margin: 18px auto 0;
+  padding: 18px 18px 16px;
+  width: min(720px, 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.hero-result.show{
-  opacity:1; transform: translateY(0) scale(1);
-  animation: subtleGlow 2.2s ease 200ms both;
+.hero-result.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: subtleGlow 3s ease 400ms both;
 }
 
-.hero-result h3{
-  margin:0 0 6px;
-  font-family: "Space Grotesk", Sora, Inter, sans-serif;
+.hero-result h3 {
+  margin: 0 0 6px;
+  font-family: "Space Grotesk", sans-serif;
   font-size: clamp(18px, 2.6vw, 22px);
-  letter-spacing:.2px;
 }
 
-.hero-result p{
-  margin:0 0 14px; color:var(--muted);
+.hero-result p {
+  margin: 0 0 14px;
+  color: var(--muted);
 }
-
-#compareButton{
-  padding:10px 14px; font-size:14px; font-weight:600;
-  color:var(--text);
-  background:rgba(101,70,224,.14);
-  border:1px solid rgba(101,70,224,.4);
-  border-radius:10px; cursor:pointer;
-  transition: background .2s ease, box-shadow .25s ease, transform .08s ease;
-}
-
-#compareButton:hover{
-  background:rgba(234,205,92,.14);
-  box-shadow: 0 10px 24px rgba(234,205,92,.22);
-}
-
-#compareButton:active{ transform: translateY(1px); }
 
 /* ===== Animations ===== */
-@keyframes subtleGlow{
-  0%   { box-shadow: 0 14px 44px rgba(0,0,0,.45), 0 0 0 1px rgba(101,70,224,.12) inset; }
-  60%  { box-shadow: 0 16px 52px rgba(234,205,92,.26), 0 0 0 1px rgba(234,205,92,.35) inset; }
-  100% { box-shadow: 0 14px 44px rgba(0,0,0,.45), 0 0 0 1px rgba(101,70,224,.16) inset; }
+@keyframes subtleGlow {
+  0% { box-shadow: 0 14px 44px rgba(0, 0, 0, 0.45); }
+  60% { box-shadow: 0 16px 52px rgba(234, 205, 92, 0.26); }
+  100% { box-shadow: 0 14px 44px rgba(0, 0, 0, 0.45); }
 }
 
 @keyframes auraPulse {
-  0% {
-    text-shadow:
-      0 0 8px rgba(101, 70, 224, 0.4),
-      0 0 16px rgba(234, 205, 92, 0.2);
-    filter: drop-shadow(0 0 24px rgba(101, 70, 224, 0.25));
-  }
-  100% {
-    text-shadow:
-      0 0 18px rgba(101, 70, 224, 0.6),
-      0 0 32px rgba(234, 205, 92, 0.35);
-    filter: drop-shadow(0 0 42px rgba(234, 205, 92, 0.25));
-  }
+  0% { text-shadow: 0 0 8px rgba(101, 70, 224, 0.4), 0 0 16px rgba(234, 205, 92, 0.2); }
+  100% { text-shadow: 0 0 18px rgba(101, 70, 224, 0.6), 0 0 32px rgba(234, 205, 92, 0.35); }
 }
 
 @keyframes auraFade {
@@ -252,18 +209,29 @@ body::before{
 }
 
 @keyframes shine {
-  0%   { background-position: 0 0, -220% 0; }
+  0% { background-position: 0 0, -220% 0; }
   100% { background-position: 0 0, 220% 0; }
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 640px){
-  .hero{ padding-top:72px; }
-  .hero-input{ flex-direction:column; gap:8px; padding:12px; }
-  #analyzeButton, .hero-input input{ width:100%; }
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 72px;
+  }
+  .hero-input {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+  #analyzeButton,
+  .hero-input input {
+    width: 100%;
+  }
 }
 
-/* Respecte la réduction d’animation */
-@media (prefers-reduced-motion: reduce){
-  *{ animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }
