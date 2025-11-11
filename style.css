@@ -283,3 +283,27 @@ body::before {
     transform: translateY(0) scale(1);
   }
 }
+
+/* ===== Header minimal et discret ===== */
+.site-header {
+  position: fixed;
+  top: 24px;
+  left: 32px;
+  z-index: 100;
+}
+
+.brand-silent {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgba(232, 233, 240, 0.35);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease, opacity 0.3s ease;
+  user-select: none;
+}
+
+.brand-silent:hover {
+  color: var(--text);
+  opacity: 0.9;
+}
