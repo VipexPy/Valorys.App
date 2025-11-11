@@ -249,3 +249,79 @@ body::before {
 @media (prefers-reduced-motion: reduce){
   *{ animation:none !important; transition:none !important; }
 }
+
+/* ===== Aperçu vivant (demo) ===== */
+.live-preview {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  margin: 10px 0 18px;
+}
+
+.lp-card {
+  width: min(760px, 100%);
+  padding: 16px 16px 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  box-shadow: 0 14px 36px rgba(0,0,0,.42), inset 0 0 0 1px rgba(101,70,224,.12);
+  transform-origin: center;
+  opacity: 0; transform: translateY(8px) scale(.98);
+}
+
+.lp-enter { animation: lpIn .6s cubic-bezier(.22,.61,.36,1) forwards; }
+.lp-leave { animation: lpOut .4s ease forwards; }
+
+@keyframes lpIn {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes lpOut {
+  to { opacity: 0; transform: translateY(-6px) scale(.98); }
+}
+
+.lp-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 10px;
+  color: rgba(232,233,240,.85);
+}
+.lp-header img {
+  height: 18px; width: 18px; object-fit: contain; filter: brightness(.95);
+}
+.lp-header .lp-time {
+  margin-left: auto;
+  font-size: .85rem; color: rgba(232,233,240,.6);
+}
+
+.lp-body { display: grid; gap: 8px; }
+
+.lp-rank {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700; letter-spacing: .2px;
+  font-size: clamp(18px, 2.2vw, 22px);
+}
+.lp-meta {
+  color: var(--muted);
+  font-size: .98rem;
+}
+
+.lp-meter {
+  position: relative; height: 10px; border-radius: 999px; overflow: hidden;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: inset 0 0 0 1px rgba(101,70,224,.10);
+}
+.lp-meter-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--violet), var(--indigo), var(--gold));
+  box-shadow: 0 0 14px rgba(101,70,224,.24);
+  transition: width .8s cubic-bezier(.22,.61,.36,1);
+}
+
+.lp-compare {
+  font-size: .92rem; color: rgba(232,233,240,.75);
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+
+/* Masquer l’aperçu quand on affiche un vrai résultat */
+.live-preview.is-hidden { display: none; }
