@@ -236,17 +236,17 @@ body::before {
   }
 }
 
-/* ===== Animation d’entrée Apple-like ===== */
+/* ===== Animation d’entrée Apple-like (plus rapide) ===== */
 .hero {
   opacity: 0;
-  transform: translateY(20px);
-  animation: heroFadeIn 1.4s ease-out forwards;
+  transform: translateY(16px);
+  animation: heroFadeIn 1s ease-out forwards;
 }
 
 @keyframes heroFadeIn {
   0% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
   100% {
     opacity: 1;
@@ -254,29 +254,29 @@ body::before {
   }
 }
 
-/* Séquence des sous-éléments (effet échelonné) */
+/* Séquence des sous-éléments (effet échelonné rapide) */
 .brand-wordmark {
   opacity: 0;
-  transform: translateY(12px) scale(0.97);
-  animation: fadeUp 1s ease-out forwards 0.3s;
+  transform: translateY(10px) scale(0.97);
+  animation: fadeUp 0.8s ease-out forwards 0.2s;
 }
 
 .hero-subtitle {
   opacity: 0;
-  transform: translateY(8px);
-  animation: fadeUp 1s ease-out forwards 1s;
+  transform: translateY(6px);
+  animation: fadeUp 0.8s ease-out forwards 0.6s;
 }
 
 .hero-input {
   opacity: 0;
-  transform: translateY(8px);
-  animation: fadeUp 1s ease-out forwards 1.5s;
+  transform: translateY(6px);
+  animation: fadeUp 0.8s ease-out forwards 1s;
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.98);
+    transform: translateY(6px) scale(0.98);
   }
   to {
     opacity: 1;
