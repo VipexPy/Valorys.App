@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VALORYS — Du jeu aux compétences</title>
     <meta name="description" content="Valorys traduit vos performances de jeu en valeur réelle. Découvrez ce que votre rang dit de vos compétences." />
-
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
-
-    <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
     <meta name="theme-color" content="#0B0D17" />
   </head>
@@ -18,7 +14,7 @@
     <!-- ===== HEADER ===== -->
     <header class="site-header">
       <a href="/" class="brand-logo" aria-label="Accueil Valorys">
-        <svg class="valorys-icon" width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="valorys-icon" width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M15 20 L50 80 L85 20" stroke="url(#grad1)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
           <defs>
             <linearGradient id="grad1" x1="15" y1="20" x2="85" y2="80" gradientUnits="userSpaceOnUse">
@@ -26,6 +22,7 @@
             </linearGradient>
           </defs>
         </svg>
+        <span class="sr-only">Valorys</span>
       </a>
     </header>
 
@@ -43,8 +40,7 @@
           <img src="https://cdn.simpleicons.org/overwatch/E8E9F0" alt="Overwatch 2" />
           <img src="https://cdn.simpleicons.org/apexlegends/E8E9F0" alt="Apex Legends" />
           <img src="https://cdn.simpleicons.org/rocketdotai/E8E9F0" alt="Rocket League" />
-
-          <!-- duplication pour loop fluide -->
+          <!-- copie pour loop fluide -->
           <img src="https://cdn.simpleicons.org/leagueoflegends/E8E9F0" alt="League of Legends" />
           <img src="https://cdn.simpleicons.org/valorant/E8E9F0" alt="Valorant" />
           <img src="https://cdn.simpleicons.org/counterstrike/E8E9F0" alt="Counter-Strike 2" />
@@ -54,7 +50,7 @@
         </div>
       </section>
 
-      <!-- ===== Aperçu vivant des recherches (demo) ===== -->
+      <!-- ===== Aperçu vivant (démo) ===== -->
       <section class="live-preview" id="livePreview" aria-label="Exemples de résultats">
         <div class="lp-card lp-enter" id="lpCard">
           <div class="lp-header">
@@ -78,25 +74,35 @@
         </div>
       </section>
 
-      <!-- Module interactif -->
+      <!-- ===== Module interactif ===== -->
       <div class="hero-input" id="inputBox">
         <input
           type="text"
           id="rankInput"
           placeholder="Ex : Gold IV – LoL / Ascendant – Valorant / Master – Clash Royale"
           autocomplete="off"
+          aria-label="Entre ton rang et ton jeu"
         />
         <button id="analyzeButton">Analyser ma valeur</button>
       </div>
 
-      <!-- Résultat + mini visualisation -->
+      <!-- ===== Historique des recherches ===== -->
+      <section class="history" id="history" aria-label="Historique des recherches">
+        <div class="history__head">
+          <h2>Historique des recherches</h2>
+          <button class="ghost-btn small" id="clearHistoryBtn" aria-label="Effacer l'historique">Effacer</button>
+        </div>
+        <div class="history__list" id="historyList" aria-live="polite"></div>
+      </section>
+
+      <!-- Résultat principal -->
       <div class="hero-result" id="resultContainer" style="display:none;">
         <h3 id="resultTitle"></h3>
         <p id="resultText"></p>
 
-        <!-- (1) Mini visualisation de valeur -->
+        <!-- Mini visualisation -->
         <div class="value-meter" aria-label="Indice de valeur">
-          <div class="value-meter__fill" id="valueFill"></div>
+          <div class="value-meter__fill" id="valueFill" aria-valuemin="0" aria-valuemax="100"></div>
           <div class="value-meter__ticks">
             <span>Débutant</span><span>Intermédiaire</span><span>Élite</span><span>Légendaire</span>
           </div>
@@ -106,7 +112,7 @@
       </div>
     </main>
 
-    <!-- ===== (2) Section Comment ça marche ===== -->
+    <!-- ===== HOW IT WORKS ===== -->
     <section class="howitworks" id="howitworks" aria-label="Comment ça marche">
       <div class="howitworks__inner">
         <h2 class="howitworks__title reveal-init">Comment ça marche</h2>
@@ -138,11 +144,11 @@
       </div>
     </section>
 
-    <!-- ===== (4) FOOTER premium ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="site-footer">
       <div class="footer-inner">
-        <a href="#" class="footer-logo" aria-label="Valorys">
-          <svg class="footer-icon" width="26" height="26" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <a href="/" class="footer-logo" aria-label="Valorys">
+          <svg class="footer-icon" width="26" height="26" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M15 20 L50 80 L85 20" stroke="url(#grad2)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
             <defs>
               <linearGradient id="grad2" x1="15" y1="20" x2="85" y2="80" gradientUnits="userSpaceOnUse">
@@ -156,7 +162,8 @@
           <a href="#howitworks">Comment ça marche</a>
           <a href="mailto:hello@valorys.app">Contact</a>
           <a href="#">Mentions</a>
-          <a href="#">Discord</a>
+          <a href="https://twitter.com" target="_blank" rel="noopener">Twitter</a>
+          <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
         </nav>
         <small>© <span id="year"></span> Valorys</small>
       </div>
@@ -164,9 +171,6 @@
 
     <!-- ===== SCRIPT ===== -->
     <script>
-      /* ==========
-        VALORYS — Analyse de rang (v1 + viz & micro-anim)
-      ========== */
       const $ = (sel) => document.querySelector(sel);
 
       const resultContainer = $("#resultContainer");
@@ -177,6 +181,10 @@
       const compareButton = $("#compareButton");
       const valueFill = $("#valueFill");
       const inputBox = $("#inputBox");
+
+      const historyList = $("#historyList");
+      const historyRoot = $("#history");
+      const clearHistoryBtn = $("#clearHistoryBtn");
 
       const norm = (s) => (s || "").toString().trim().toLowerCase();
       const divisionAdjust = { iv: +6, iii: +4, ii: +2, i: 0 };
@@ -272,44 +280,62 @@
         return           { border:"rgba(101,70,224,.28)", bg:"linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))", shadow:"0 12px 36px rgba(0,0,0,.45)" };
       }
 
-      // (1) Micro-animation "calcul"
       function setCalculating(on) {
         inputBox.classList.toggle("loading", !!on);
         analyzeButton.disabled = !!on;
       }
 
-      // Rendu du résultat + mise à jour de la mini-barre
-      function renderResult(meta, p) {
-        const g = gameLabel(meta.game);
-        const rank = titleCaseRank(meta.tierKey.replace(" (cr)", "") || meta.tier, meta.division);
-        const diff = difficultyLabel(p);
-        const skill = dominantSkill(meta.tierKey);
-
-        resultTitle.textContent = `Ton rang ${rank} — ${g}`;
-        resultText.textContent  = `≈ Top ${p}% des joueurs · Difficulté : ${diff} · Compétence dominante : ${skill}.`;
-
-        const s = resultStyle(p);
-        resultContainer.style.display = "block";
-        resultContainer.classList.add("show");
-        resultContainer.style.borderColor = s.border;
-        resultContainer.style.background = s.bg;
-        resultContainer.style.boxShadow = `${s.shadow}, 0 0 0 1px rgba(101,70,224,.12) inset`;
-
-        // Valeur "inversée"
-        const score = Math.max(0, Math.min(100, 100 - p)); // 0..100
-        valueFill.style.width = score + "%";
-        valueFill.setAttribute("aria-valuenow", String(score));
+      // ===== Historique (localStorage) =====
+      const HISTORY_KEY = "valorys_history_v1";
+      function saveHistory(item) {
+        const list = loadHistory();
+        const withId = { ...item, id: Date.now() };
+        list.unshift(withId);
+        const capped = list.slice(0, 12);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(capped));
+        return capped;
+      }
+      function loadHistory() {
+        try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]"); }
+        catch { return []; }
+      }
+      function clearHistory() {
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory([]);
       }
 
-      function renderError(msg) {
-        resultTitle.textContent = "Impossible d’analyser ce rang";
-        resultText.textContent  = msg || "Vérifie le format : ex. “Gold IV – LoL”, “Ascendant – Valorant”.";
-        resultContainer.style.display = "block";
-        resultContainer.classList.add("show");
-        valueFill.style.width = "0%";
+      function historyCardTemplate(data){
+        const diff = difficultyLabel(data.percentile);
+        const score = Math.max(0, Math.min(100, 100 - data.percentile));
+        return `
+          <article class="h-card">
+            <header class="h-head">
+              <img src="${data.icon}" alt="${data.gameName}" class="h-icon"/>
+              <div class="h-titles">
+                <strong class="h-game">${data.gameName}</strong>
+                <span class="h-time">${data.when || "à l’instant"}</span>
+              </div>
+              <div class="h-rank">${data.rank}</div>
+            </header>
+            <div class="h-meta">≈ Top ${data.percentile}% · Compétence : ${data.skill} · Difficulté : ${diff}</div>
+            <div class="h-meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${score}">
+              <div class="h-meter-fill" style="width:${score}%"></div>
+            </div>
+            <div class="h-compare">${data.compare.map(c=>`<span>${c}</span>`).join(" · ")}</div>
+          </article>
+        `;
       }
 
-      /* ====== Aperçu vivant (données fictives récentes) ====== */
+      function renderHistory(list){
+        if (!historyList) return;
+        if (!list || list.length === 0){
+          historyList.innerHTML = `<div class="history-empty">Aucune recherche pour le moment.<br/>Entre un rang pour commencer.</div>`;
+          return;
+        }
+        historyList.innerHTML = list.map(historyCardTemplate).join("");
+      }
+
+      // ===== Aperçu vivant (démo) =====
       const LP_DATA = [
         {
           game: "valorant", gameName: "Valorant",
@@ -369,7 +395,6 @@
 
         lpMeta.textContent = `≈ Top ${data.percentile}% · Compétence : ${data.skill} · Difficulté : ${diff}`;
         lpMeterFill.style.width = Math.max(0, Math.min(100, 100 - data.percentile)) + "%";
-
         lpCompare.innerHTML = data.compare.map(c => `<span>${c}</span>`).join(" · ");
       }
 
@@ -389,15 +414,72 @@
         lpSet(LP_DATA[lpIndex]);
         lpTimer = setInterval(lpNext, 2800);
       }
-
-      // démarre la démo dès le chargement
       lpStart();
+
+      // ===== Rendu résultat + màj historique =====
+      function renderResult(meta, p) {
+        const g = gameLabel(meta.game);
+        const rank = titleCaseRank(meta.tierKey.replace(" (cr)", "") || meta.tier, meta.division);
+        const diff = difficultyLabel(p);
+        const skill = dominantSkill(meta.tierKey);
+
+        resultTitle.textContent = `Ton rang ${rank} — ${g}`;
+        resultText.textContent  = `≈ Top ${p}% des joueurs · Difficulté : ${diff} · Compétence dominante : ${skill}.`;
+
+        const s = resultStyle(p);
+        resultContainer.style.display = "block";
+        resultContainer.classList.add("show");
+        resultContainer.style.borderColor = s.border;
+        resultContainer.style.background = s.bg;
+        resultContainer.style.boxShadow = `${s.shadow}, 0 0 0 1px rgba(101,70,224,.12) inset`;
+
+        const score = Math.max(0, Math.min(100, 100 - p)); // 0..100
+        valueFill.style.width = score + "%";
+        valueFill.setAttribute("aria-valuenow", String(score));
+
+        // Ajout à l'historique
+        const icon = meta.game === "lol" ? "https://cdn.simpleicons.org/leagueoflegends/E8E9F0"
+                    : meta.game === "valorant" ? "https://cdn.simpleicons.org/valorant/E8E9F0"
+                    : "https://cdn.simpleicons.org/clashroyale/E8E9F0";
+        const item = {
+          game: meta.game,
+          gameName: g,
+          icon,
+          rank,
+          percentile: p,
+          skill,
+          compare: buildComparison(meta, p),
+          when: "à l’instant"
+        };
+        const list = saveHistory(item);
+        renderHistory(list);
+      }
+
+      function buildComparison(meta, p){
+        // Comparaisons rapides par mapping simple (inter-jeux approximatif)
+        const g = meta.game;
+        const rankLoL = ["Débutant","Bronze","Argent","Or","Platine","Émeraude","Diamant","Master","Grandmaster","Challenger"];
+        const toLoL = p<=0.2?"Challenger":p<=1.5?"Grandmaster":p<=4?"Master":p<=8?"Diamant I":p<=15?"Émeraude I":p<=25?"Platine I":p<=40?"Or I":"Argent I";
+        const toVal = p<=0.2?"Radiant":p<=2.5?"Immortal 1":p<=8?"Ascendant II":p<=15?"Diamant I":p<=25?"Platine II":p<=40?"Or I":"Argent I";
+        const toCR  = p<=0.5?"Ultimate Champion":p<=4?"Royal Champion":p<=10?"Grand Champion":p<=20?"Champion":p<=40?"Master":"Challenger";
+        if (g === "lol") return [`≈ Valorant : ${toVal}`, `Clash Royale : ${toCR}`];
+        if (g === "valorant") return [`≈ LoL : ${toLoL}`, `Clash Royale : ${toCR}`];
+        return [`≈ LoL : ${toLoL}`, `Valorant : ${toVal}`];
+      }
+
+      function renderError(msg) {
+        resultTitle.textContent = "Impossible d’analyser ce rang";
+        resultText.textContent  = msg || "Vérifie le format : ex. “Gold IV – LoL”, “Ascendant – Valorant”.";
+        resultContainer.style.display = "block";
+        resultContainer.classList.add("show");
+        valueFill.style.width = "0%";
+      }
 
       function analyze() {
         const raw = rankInput.value.trim();
         if (!raw) return;
 
-        // — Masquer la démo dès la première vraie recherche
+        // Masquer la démo à la première recherche
         if (lpRoot && !lpRoot.classList.contains('is-hidden')) {
           lpRoot.classList.add('is-hidden');
           if (lpTimer) clearInterval(lpTimer);
@@ -409,7 +491,6 @@
         resultTitle.textContent = "Analyse en cours…";
         resultText.textContent  = "Évaluation du rang et comparaison…";
 
-        // Laisse respirer la micro-anim
         setTimeout(() => {
           const meta = parseRank(raw);
           if (!meta) { setCalculating(false); return renderError(); }
@@ -427,11 +508,15 @@
       // Footer year
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      // (2) Scroll reveal (How it works)
+      // Scroll reveal
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("reveal-visible"); });
       }, { threshold: 0.2 });
       document.querySelectorAll(".reveal-init").forEach((el) => observer.observe(el));
+
+      // Init historique
+      renderHistory(loadHistory());
+      clearHistoryBtn.addEventListener("click", clearHistory);
     </script>
   </body>
 </html>
