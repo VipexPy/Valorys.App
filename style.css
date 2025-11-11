@@ -174,7 +174,7 @@ body::before {
 }
 
 .games-track img {
-  height: 38px;
+  height: 42px;
   width: auto;
   opacity: 0.85;
   filter: brightness(0.95) drop-shadow(0 0 6px rgba(101, 70, 224, 0.25));
