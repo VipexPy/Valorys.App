@@ -6,7 +6,7 @@
     <title>VALORYS — Du jeu aux compétences</title>
     <meta
       name="description"
-      content="Valorys transforme les performances de jeux vidéo en compétences mesurables : score universel, titres honorifiques, profil public."
+      content="Valorys traduit votre rang de jeu en valeur réelle. Découvrez comment vos performances révèlent vos compétences."
     />
 
     <!-- Fonts -->
@@ -17,22 +17,18 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
-
-    <!-- Basic meta -->
     <meta name="theme-color" content="#0B0D17" />
   </head>
+
   <body>
     <header class="site-header" aria-label="Valorys">
       <a href="/" class="brand">VALORYS</a>
     </header>
 
-    <!-- ========= HERO INTERACTIF ========= -->
+    <!-- ========= HERO ========= -->
     <main class="hero">
-     <h1 class="brand-wordmark">
-  <span class="valorys-glow">VALORYS</span>
-</h1>
-<p class="hero-subtitle">Du jeu aux compétences.</p>
-
+      <h1 class="brand-wordmark"><span class="valorys-glow">VALORYS</span></h1>
+      <p class="hero-subtitle">Du jeu aux compétences.</p>
 
       <div class="hero-input">
         <input
@@ -50,281 +46,11 @@
       </div>
     </main>
 
-    <!-- ========= FOOTER ========= -->
     <footer class="site-footer">
       <small>© <span id="year"></span> Valorys</small>
     </footer>
 
-    <!-- ========= SCRIPT BASIQUE ========= -->
-   <script>
-/* ==========
-  VALORYS — Analyse de rang (v1 sans API)
-  - Jeux supportés : League of Legends, Valorant, Clash Royale
-  - Entrées possibles (ex) :
-    "Gold IV – LoL"
-    "Ascendant - Valorant"
-    "Master — Clash Royale"
-    "Emerald II Lol"
-    "Ultimate Champion - Clash Royale"
-  - Tolère "-", "–", "—", espaces, casse, et jeu optionnel (détection par le rang).
-========== */
-
-// --- Utilitaires ---
-const $ = (sel) => document.querySelector(sel);
-const resultContainer = $("#resultContainer");
-const resultTitle = $("#resultTitle");
-const resultText = $("#resultText");
-const analyzeButton = $("#analyzeButton");
-const rankInput = $("#rankInput");
-const compareButton = $("#compareButton");
-
-// Normalisation d'une chaîne
-const norm = (s) => (s || "").toString().trim().toLowerCase();
-
-// Map divisions → ajustement percentile (IV = plus commun, I = plus rare)
-const divisionAdjust = { "iv": +6, "iii": +4, "ii": +2, "i": 0 };
-
-// Seuils de difficulté → libellé
-function difficultyLabel(percentile) {
-  if (percentile <= 1) return "Légendaire";
-  if (percentile <= 5) return "Élite";
-  if (percentile <= 10) return "Très élevée";
-  if (percentile <= 25) return "Élevée";
-  if (percentile <= 50) return "Intermédiaire";
-  return "Débutant";
-}
-
-// Compétence dominante par tier (approx.)
-function dominantSkill(tierKey) {
-  const t = tierKey;
-  if (["challenger","radiant","ultimate champion"].includes(t)) return "Leadership & sang-froid";
-  if (["grandmaster","immortal","royal champion"].includes(t)) return "Décision sous pression";
-  if (["master","champion"].includes(t)) return "Apprentissage rapide";
-  if (["diamond","ascendant","grand champion"].includes(t)) return "Vision stratégique";
-  if (["emerald","platinum","master (cr)"].includes(t)) return "Constance";
-  if (["gold","diamond (cr)","platinum (cr)","challenger (cr)"].includes(t)) return "Gestion des risques";
-  return "Progression & résilience";
-}
-
-// =====================
-// Données de base (percentiles de tier, approximatifs et pédagogiques)
-// -> On prend un percentile “médian” du tier ; la division ajuste ensuite.
-// =====================
-
-// League of Legends (tiers modernes, sans divisions pour Master+)
-const LOL_TIERS = {
-  "iron": 85,
-  "bronze": 70,
-  "silver": 55,
-  "gold": 40,
-  "platinum": 25,
-  "emerald": 15,
-  "diamond": 8,
-  "master": 3.5,
-  "grandmaster": 1.5,
-  "challenger": 0.1
-};
-
-// Valorant
-const VAL_TIERS = {
-  "iron": 85,
-  "bronze": 70,
-  "silver": 55,
-  "gold": 40,
-  "platinum": 25,
-  "diamond": 15,
-  "ascendant": 8,
-  "immortal": 2.5,
-  "radiant": 0.1
-};
-
-// Clash Royale (Leagues)
-const CR_TIERS = {
-  "challenger": 60,   // Challenger I/II/III
-  "master (cr)": 40,  // Master I/II/III
-  "champion": 20,
-  "grand champion": 10,
-  "royal champion": 4,
-  "ultimate champion": 0.5
-};
-
-// Reconnaissance des jeux
-function detectGame(raw, tierKey) {
-  const s = norm(raw);
-  if (/(valorant|val\b)/.test(s)) return "valorant";
-  if (/(clash|clash royale|cr\b)/.test(s)) return "clash_royale";
-  if (/(lol|league of legends|league\b)/.test(s)) return "lol";
-
-  // Détection par tier
-  if (["emerald","grandmaster","challenger","iron"].includes(tierKey)) return "lol";
-  if (["ascendant","immortal","radiant"].includes(tierKey)) return "valorant";
-  if (["ultimate champion","royal champion","grand champion","champion"].includes(tierKey)) return "clash_royale";
-
-  // Défaut : Valorant (choix neutre et “connu”)
-  return "valorant";
-}
-
-// Extraction du tier + division (très permissive)
-function parseRank(raw) {
-  const s = norm(raw).replace(/—|–/g, "-");
-
-  // Sépare éventuellement "rang - jeu"
-  const [left, right] = s.split("-").map(x => (x || "").trim());
-
-  // Candidat rang = partie gauche si présente sinon toute la chaîne
-  const candidate = left || s;
-
-  // Tables des regex par jeu
-  const tierRegexes = [
-    // Valorant
-    { game: "valorant", re: /(radiant|immortal|ascendant|diamond|platinum|gold|silver|bronze|iron)\s*(iv|iii|ii|i)?/ },
-    // League of Legends
-    { game: "lol", re: /(challenger|grandmaster|master|diamond|emerald|platinum|gold|silver|bronze|iron)\s*(iv|iii|ii|i)?/ },
-    // Clash Royale (pas de divisions)
-    { game: "clash_royale", re: /(ultimate champion|royal champion|grand champion|champion|master|challenger)/ }
-  ];
-
-  for (const { game, re } of tierRegexes) {
-    const m = candidate.match(re);
-    if (m) {
-      const tier = m[1];
-      const div = m[2] || null;
-
-      // Jeu explicite si présent en suffixe
-      const explicitGame = right || s;
-      const resolvedGame = detectGame(explicitGame, norm(tier));
-
-      return {
-        game: resolvedGame,
-        tier: tier,     // forme telle que l'utilisateur l'a écrite (pour affichage)
-        tierKey: norm(tier),
-        division: div ? norm(div) : null
-      };
-    }
-  }
-
-  return null;
-}
-
-// Calcul du percentile approché selon le jeu + tier + division
-function computePercentile(meta) {
-  const { game, tierKey, division } = meta;
-  let base;
-
-  if (game === "lol") base = LOL_TIERS[tierKey];
-  else if (game === "valorant") base = VAL_TIERS[tierKey];
-  else if (game === "clash_royale") {
-    // clash: ambiguité sur "master" → on marque comme "master (cr)"
-    const key = tierKey === "master" ? "master (cr)" : tierKey;
-    base = CR_TIERS[key];
-  }
-
-  if (typeof base !== "number") return null;
-
-  // Ajuste par division (si applicable)
-  let adj = base;
-  if (division && divisionAdjust[division] != null) {
-    adj = Math.min(99, base + divisionAdjust[division]); // plus la division est basse, plus c’est commun
-  }
-  // Clamp minimal
-  if (adj < 0.05) adj = 0.05;
-
-  return Number(adj.toFixed(adj < 1 ? 2 : adj < 10 ? 1 : 0));
-}
-
-// Nom “propre” de jeu pour affichage
-function gameLabel(id) {
-  if (id === "lol") return "League of Legends";
-  if (id === "valorant") return "Valorant";
-  if (id === "clash_royale") return "Clash Royale";
-  return "Jeu";
-}
-
-// Mise en forme du titre de rang (capitalisation simple)
-function titleCaseRank(tier, division) {
-  const up = (w) => w.charAt(0).toUpperCase() + w.slice(1);
-  const t = tier.split(" ").map(up).join(" ");
-  if (!division) return t;
-  const roman = division.toUpperCase();
-  return `${t} ${roman}`;
-}
-
-// Couleur/glow du résultat selon difficulté
-function resultStyle(percentile) {
-  // Tu peux affiner ces seuils pour coller à ta DA
-  if (percentile <= 5) {
-    return { border: "rgba(234,205,92,.45)", bg: "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03))", shadow: "0 16px 46px rgba(234,205,92,.28)" };
-  }
-  if (percentile <= 15) {
-    return { border: "rgba(101,70,224,.45)", bg: "linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03))", shadow: "0 14px 44px rgba(101,70,224,.22)" };
-  }
-  return { border: "rgba(101,70,224,.28)", bg: "linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))", shadow: "0 12px 36px rgba(0,0,0,.45)" };
-}
-
-// Rendu du résultat
-function renderResult(meta, percentile) {
-  const gameName = gameLabel(meta.game);
-  const prettyRank = titleCaseRank(meta.tierKey.replace(" (cr)","") || meta.tier, meta.division);
-  const diff = difficultyLabel(percentile);
-  const skill = dominantSkill(meta.tierKey);
-
-  resultTitle.textContent = `Ton rang ${prettyRank} — ${gameName}`;
-  resultText.textContent = `≈ Top ${percentile}% des joueurs · Difficulté : ${diff} · Compétence dominante : ${skill}.`;
-
-  // Style dynamique doux
-  const style = resultStyle(percentile);
-  resultContainer.style.display = "block";
-  resultContainer.classList.add("show");
-  resultContainer.style.borderColor = style.border;
-  resultContainer.style.background = style.bg;
-  resultContainer.style.boxShadow = `${style.shadow}, 0 0 0 1px rgba(101,70,224,.12) inset`;
-}
-
-// Message d’erreur simple
-function renderError(msg) {
-  resultTitle.textContent = "Impossible d’analyser ce rang";
-  resultText.textContent = msg || "Vérifie le format : ex. “Gold IV – LoL”, “Ascendant – Valorant”, “Ultimate Champion – Clash Royale”.";
-  resultContainer.style.display = "block";
-  resultContainer.classList.add("show");
-}
-
-// Action principale
-function analyze() {
-  const raw = rankInput.value.trim();
-  if (!raw) return;
-
-  // État “analyse en cours…”
-  resultContainer.style.display = "block";
-  resultContainer.classList.add("show");
-  resultTitle.textContent = "Analyse en cours…";
-  resultText.textContent = "Évaluation du rang et comparaison…";
-
-  // Laisse l’animation respirer un peu
-  setTimeout(() => {
-    const meta = parseRank(raw);
-    if (!meta) {
-      renderError();
-      return;
-    }
-    const pct = computePercentile(meta);
-    if (pct == null) {
-      renderError("Rang non reconnu pour ce jeu.");
-      return;
-    }
-    renderResult(meta, pct);
-  }, 280);
-}
-
-// Boutons / events
-analyzeButton.addEventListener("click", analyze);
-rankInput.addEventListener("keydown", (e) => { if (e.key === "Enter") analyze(); });
-compareButton.addEventListener("click", () => {
-  rankInput.focus();
-  rankInput.select();
-});
-
-// Init année
-document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
+    <!-- ========= SCRIPT ========= -->
+    <script src="script.js"></script>
   </body>
 </html>
