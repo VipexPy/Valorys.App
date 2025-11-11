@@ -174,16 +174,18 @@ body::before {
 }
 
 .games-track img {
-  height: 40px;
+  height: 38px;
   width: auto;
-  opacity: 0.8;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  filter: drop-shadow(0 0 6px rgba(101, 70, 224, 0.25));
+  opacity: 0.85;
+  filter: brightness(0.95) drop-shadow(0 0 6px rgba(101, 70, 224, 0.25));
+  transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+  object-fit: contain;
 }
 
 .games-track img:hover {
   opacity: 1;
   transform: scale(1.08);
+  filter: brightness(1.1) drop-shadow(0 0 10px rgba(234, 205, 92, 0.3));
 }
 
 @keyframes scrollGames {
