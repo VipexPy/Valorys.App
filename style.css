@@ -235,3 +235,51 @@ body::before {
     transition: none !important;
   }
 }
+
+/* ===== Animation d’entrée Apple-like ===== */
+.hero {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: heroFadeIn 1.4s ease-out forwards;
+}
+
+@keyframes heroFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Séquence des sous-éléments (effet échelonné) */
+.brand-wordmark {
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  animation: fadeUp 1s ease-out forwards 0.3s;
+}
+
+.hero-subtitle {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeUp 1s ease-out forwards 1s;
+}
+
+.hero-input {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeUp 1s ease-out forwards 1.5s;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
