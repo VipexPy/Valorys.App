@@ -61,17 +61,32 @@ body::before{
 }
 
 .valorys-glow {
-  background: linear-gradient(90deg, var(--violet) 0%, var(--indigo) 50%, var(--gold) 100%);
-  -webkit-background-clip: text;
+  /* Dégradé principal */
+  background:
+    /* couche 1 : gradient violet → doré (fixe) */
+    linear-gradient(90deg, var(--violet) 0%, var(--indigo) 50%, var(--gold) 100%),
+    /* couche 2 : faisceau lumineux qui défile (shine) */
+    linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.26) 12%, rgba(255,255,255,0) 22%);
   background-clip: text;
+  -webkit-background-clip: text;
   color: transparent;
 
+  /* tailles & positions des 2 couches */
+  background-size: 100% 100%, 220% 100%;
+  background-position: 0 0, -220% 0;
+
+  /* glow doux autour du texte */
   text-shadow:
     0 0 8px rgba(101, 70, 224, 0.5),
     0 0 16px rgba(234, 205, 92, 0.25);
-
   filter: drop-shadow(0 0 30px rgba(101, 70, 224, 0.25));
-  animation: auraPulse 6s ease-in-out infinite alternate;
+
+  /* 2 animations en parallèle :
+     - auraPulse (déjà définie) pour la respiration du glow
+     - shine pour le balayage lumineux dans le texte */
+  animation:
+    auraPulse 6s ease-in-out infinite alternate,
+    shine 7.5s linear infinite;
 }
 
 /* Aura douce autour du wordmark */
@@ -234,6 +249,11 @@ body::before{
 @keyframes auraFade {
   0% { opacity: 0.25; transform: scale(1); }
   100% { opacity: 0.45; transform: scale(1.05); }
+}
+
+@keyframes shine {
+  0%   { background-position: 0 0, -220% 0; }
+  100% { background-position: 0 0, 220% 0; }
 }
 
 /* ===== Responsive ===== */
