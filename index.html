@@ -54,6 +54,30 @@
         </div>
       </section>
 
+      <!-- ===== Aperçu vivant des recherches (demo) ===== -->
+      <section class="live-preview" id="livePreview" aria-label="Exemples de résultats">
+        <div class="lp-card lp-enter" id="lpCard">
+          <div class="lp-header">
+            <img id="lpGameIcon" alt="" />
+            <span id="lpGameName">Valorant</span>
+            <span class="lp-time" id="lpTime">il y a 2 min</span>
+          </div>
+
+          <div class="lp-body">
+            <div class="lp-rank" id="lpRank">Ascendant II</div>
+            <div class="lp-meta" id="lpMeta">≈ Top 8% · Compétence : Vision stratégique</div>
+
+            <div class="lp-meter">
+              <div class="lp-meter-fill" id="lpMeterFill" style="width: 62%"></div>
+            </div>
+
+            <div class="lp-compare" id="lpCompare">
+              <span>≈ LoL : Platine I</span> · <span>CS2 : Master Guardian</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- Module interactif -->
       <div class="hero-input" id="inputBox">
         <input
@@ -271,7 +295,7 @@
         resultContainer.style.background = s.bg;
         resultContainer.style.boxShadow = `${s.shadow}, 0 0 0 1px rgba(101,70,224,.12) inset`;
 
-        // Valeur "inversée" (plus le % est petit, plus la valeur est grande)
+        // Valeur "inversée"
         const score = Math.max(0, Math.min(100, 100 - p)); // 0..100
         valueFill.style.width = score + "%";
         valueFill.setAttribute("aria-valuenow", String(score));
@@ -285,9 +309,100 @@
         valueFill.style.width = "0%";
       }
 
+      /* ====== Aperçu vivant (données fictives récentes) ====== */
+      const LP_DATA = [
+        {
+          game: "valorant", gameName: "Valorant",
+          icon: "https://cdn.simpleicons.org/valorant/E8E9F0",
+          rank: "Ascendant II", percentile: 8, skill: "Vision stratégique",
+          compare: ["≈ LoL : Platine I", "CS2 : Master Guardian"], ago: "il y a 2 min"
+        },
+        {
+          game: "lol", gameName: "League of Legends",
+          icon: "https://cdn.simpleicons.org/leagueoflegends/E8E9F0",
+          rank: "Émeraude IV", percentile: 15, skill: "Constance",
+          compare: ["≈ Valorant : Diamant I", "CS2 : DMG"], ago: "il y a 7 min"
+        },
+        {
+          game: "counter-strike", gameName: "Counter-Strike 2",
+          icon: "https://cdn.simpleicons.org/counterstrike/E8E9F0",
+          rank: "LEM", percentile: 6, skill: "Décision sous pression",
+          compare: ["≈ LoL : Diamant IV", "Valorant : Ascendant I"], ago: "il y a 12 min"
+        },
+        {
+          game: "overwatch", gameName: "Overwatch 2",
+          icon: "https://cdn.simpleicons.org/overwatch/E8E9F0",
+          rank: "Master 3", percentile: 9, skill: "Vision stratégique",
+          compare: ["≈ Valorant : Diamant II", "CS2 : MGE"], ago: "il y a 16 min"
+        },
+        {
+          game: "apexlegends", gameName: "Apex Legends",
+          icon: "https://cdn.simpleicons.org/apexlegends/E8E9F0",
+          rank: "Master", percentile: 1.5, skill: "Leadership & sang-froid",
+          compare: ["≈ LoL : Grandmaster", "Valorant : Immortal 1"], ago: "il y a 25 min"
+        }
+      ];
+
+      const lpRoot = document.getElementById("livePreview");
+      const lpCard = document.getElementById("lpCard");
+      const lpGameIcon = document.getElementById("lpGameIcon");
+      const lpGameName = document.getElementById("lpGameName");
+      const lpTime = document.getElementById("lpTime");
+      const lpRank = document.getElementById("lpRank");
+      const lpMeta = document.getElementById("lpMeta");
+      const lpMeterFill = document.getElementById("lpMeterFill");
+      const lpCompare = document.getElementById("lpCompare");
+
+      let lpIndex = 0, lpTimer = null;
+
+      function lpSet(data) {
+        lpGameIcon.src = data.icon;
+        lpGameIcon.alt = data.gameName;
+        lpGameName.textContent = data.gameName;
+        lpTime.textContent = data.ago;
+        lpRank.textContent = data.rank;
+
+        const diff = (data.percentile <= 1) ? "Légendaire" :
+                     (data.percentile <= 5) ? "Élite" :
+                     (data.percentile <= 10)? "Très élevée" :
+                     (data.percentile <= 25)? "Élevée" : "Intermédiaire";
+
+        lpMeta.textContent = `≈ Top ${data.percentile}% · Compétence : ${data.skill} · Difficulté : ${diff}`;
+        lpMeterFill.style.width = Math.max(0, Math.min(100, 100 - data.percentile)) + "%";
+
+        lpCompare.innerHTML = data.compare.map(c => `<span>${c}</span>`).join(" · ");
+      }
+
+      function lpNext() {
+        lpCard.classList.remove("lp-enter");
+        lpCard.classList.add("lp-leave");
+        setTimeout(() => {
+          lpIndex = (lpIndex + 1) % LP_DATA.length;
+          lpSet(LP_DATA[lpIndex]);
+          lpCard.classList.remove("lp-leave");
+          lpCard.offsetHeight; // reflow
+          lpCard.classList.add("lp-enter");
+        }, 360);
+      }
+
+      function lpStart() {
+        lpSet(LP_DATA[lpIndex]);
+        lpTimer = setInterval(lpNext, 2800);
+      }
+
+      // démarre la démo dès le chargement
+      lpStart();
+
       function analyze() {
         const raw = rankInput.value.trim();
         if (!raw) return;
+
+        // — Masquer la démo dès la première vraie recherche
+        if (lpRoot && !lpRoot.classList.contains('is-hidden')) {
+          lpRoot.classList.add('is-hidden');
+          if (lpTimer) clearInterval(lpTimer);
+        }
+
         setCalculating(true);
         resultContainer.style.display = "block";
         resultContainer.classList.add("show");
