@@ -6,7 +6,7 @@
     <title>VALORYS — Du jeu aux compétences</title>
     <meta
       name="description"
-      content="Valorys traduit votre rang de jeu en valeur réelle. Découvrez comment vos performances révèlent vos compétences."
+      content="Valorys traduit vos performances de jeu en valeur réelle. Découvrez ce que votre rang dit de vos compétences."
     />
 
     <!-- Fonts -->
@@ -17,30 +17,94 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
+
     <meta name="theme-color" content="#0B0D17" />
   </head>
 
   <body>
+    <!-- ===== HEADER ===== -->
     <header class="site-header">
-  <a href="/" class="brand-logo" aria-label="Accueil Valorys">
-    <svg class="valorys-icon" width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M15 20 L50 80 L85 20" stroke="url(#grad1)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-      <defs>
-        <linearGradient id="grad1" x1="15" y1="20" x2="85" y2="80" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#6546E0"/>
-          <stop offset="0.6" stop-color="#4A61FF"/>
-          <stop offset="1" stop-color="#EACD5C"/>
-        </linearGradient>
-      </defs>
-    </svg>
-  </a>
-</header>
+      <a href="/" class="brand-logo" aria-label="Accueil Valorys">
+        <svg
+          class="valorys-icon"
+          width="28"
+          height="28"
+          viewBox="0 0 100 100"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 20 L50 80 L85 20"
+            stroke="url(#grad1)"
+            stroke-width="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <defs>
+            <linearGradient
+              id="grad1"
+              x1="15"
+              y1="20"
+              x2="85"
+              y2="80"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stop-color="#6546E0" />
+              <stop offset="0.6" stop-color="#4A61FF" />
+              <stop offset="1" stop-color="#EACD5C" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </a>
+    </header>
 
-    <!-- ========= HERO ========= -->
+    <!-- ===== HERO ===== -->
     <main class="hero">
-      <h1 class="brand-wordmark"><span class="valorys-glow">VALORYS</span></h1>
+      <h1 class="brand-wordmark">
+        <span class="valorys-glow">VALORYS</span>
+      </h1>
       <p class="hero-subtitle">Du jeu aux compétences.</p>
 
+      <!-- ===== BANDE DE JEUX ===== -->
+      <section class="games-strip" aria-label="Jeux analysés par Valorys">
+        <div class="games-track">
+          <img
+            src="https://static.valorys.app/assets/logos/lol.svg"
+            alt="League of Legends"
+          />
+          <img
+            src="https://static.valorys.app/assets/logos/valorant.svg"
+            alt="Valorant"
+          />
+          <img
+            src="https://static.valorys.app/assets/logos/clashroyale.svg"
+            alt="Clash Royale"
+          />
+          <img
+            src="https://static.valorys.app/assets/logos/csgo.svg"
+            alt="CS:GO"
+          />
+          <!-- doublage pour loop fluide -->
+          <img
+            src="https://static.valorys.app/assets/logos/lol.svg"
+            alt="League of Legends"
+          />
+          <img
+            src="https://static.valorys.app/assets/logos/valorant.svg"
+            alt="Valorant"
+          />
+          <img
+            src="https://static.valorys.app/assets/logos/clashroyale.svg"
+            alt="Clash Royale"
+          />
+          <img
+            src="https://static.valorys.app/assets/logos/csgo.svg"
+            alt="CS:GO"
+          />
+        </div>
+      </section>
+
+      <!-- ===== MODULE INTERACTIF ===== -->
       <div class="hero-input">
         <input
           type="text"
@@ -56,27 +120,239 @@
         <button id="compareButton">Comparer à d’autres jeux</button>
       </div>
     </main>
-    
-<!-- ===== Bande de jeux ===== -->
-<section class="games-strip" aria-label="Jeux analysés par Valorys">
-  <div class="games-track">
-    <img src="https://static.valorys.app/assets/logos/lol.svg" alt="League of Legends" />
-    <img src="https://static.valorys.app/assets/logos/valorant.svg" alt="Valorant" />
-    <img src="https://static.valorys.app/assets/logos/clashroyale.svg" alt="Clash Royale" />
-    <img src="https://static.valorys.app/assets/logos/csgo.svg" alt="CS:GO" />
-    <!-- copie du set pour un loop fluide -->
-    <img src="https://static.valorys.app/assets/logos/lol.svg" alt="League of Legends" />
-    <img src="https://static.valorys.app/assets/logos/valorant.svg" alt="Valorant" />
-    <img src="https://static.valorys.app/assets/logos/clashroyale.svg" alt="Clash Royale" />
-    <img src="https://static.valorys.app/assets/logos/csgo.svg" alt="CS:GO" />
-  </div>
-</section>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="site-footer">
       <small>© <span id="year"></span> Valorys</small>
     </footer>
 
-    <!-- ========= SCRIPT ========= -->
-    <script src="script.js"></script>
+    <!-- ===== SCRIPT ===== -->
+    <script>
+      /* ==========
+        VALORYS — Analyse de rang (v1 sans API)
+      ========== */
+
+      const $ = (sel) => document.querySelector(sel);
+      const resultContainer = $("#resultContainer");
+      const resultTitle = $("#resultTitle");
+      const resultText = $("#resultText");
+      const analyzeButton = $("#analyzeButton");
+      const rankInput = $("#rankInput");
+      const compareButton = $("#compareButton");
+      const norm = (s) => (s || "").toString().trim().toLowerCase();
+
+      const divisionAdjust = { iv: +6, iii: +4, ii: +2, i: 0 };
+
+      function difficultyLabel(p) {
+        if (p <= 1) return "Légendaire";
+        if (p <= 5) return "Élite";
+        if (p <= 10) return "Très élevée";
+        if (p <= 25) return "Élevée";
+        if (p <= 50) return "Intermédiaire";
+        return "Débutant";
+      }
+
+      function dominantSkill(t) {
+        if (["challenger", "radiant", "ultimate champion"].includes(t))
+          return "Leadership & sang-froid";
+        if (["grandmaster", "immortal", "royal champion"].includes(t))
+          return "Décision sous pression";
+        if (["master", "champion"].includes(t)) return "Apprentissage rapide";
+        if (["diamond", "ascendant", "grand champion"].includes(t))
+          return "Vision stratégique";
+        if (["emerald", "platinum", "master (cr)"].includes(t))
+          return "Constance";
+        if (
+          ["gold", "diamond (cr)", "platinum (cr)", "challenger (cr)"].includes(
+            t
+          )
+        )
+          return "Gestion des risques";
+        return "Progression & résilience";
+      }
+
+      const LOL_TIERS = {
+        iron: 85,
+        bronze: 70,
+        silver: 55,
+        gold: 40,
+        platinum: 25,
+        emerald: 15,
+        diamond: 8,
+        master: 3.5,
+        grandmaster: 1.5,
+        challenger: 0.1,
+      };
+      const VAL_TIERS = {
+        iron: 85,
+        bronze: 70,
+        silver: 55,
+        gold: 40,
+        platinum: 25,
+        diamond: 15,
+        ascendant: 8,
+        immortal: 2.5,
+        radiant: 0.1,
+      };
+      const CR_TIERS = {
+        challenger: 60,
+        "master (cr)": 40,
+        champion: 20,
+        "grand champion": 10,
+        "royal champion": 4,
+        "ultimate champion": 0.5,
+      };
+
+      function detectGame(raw, tierKey) {
+        const s = norm(raw);
+        if (/(valorant|val\b)/.test(s)) return "valorant";
+        if (/(clash|clash royale|cr\b)/.test(s)) return "clash_royale";
+        if (/(lol|league of legends|league\b)/.test(s)) return "lol";
+        if (["emerald", "grandmaster", "challenger", "iron"].includes(tierKey))
+          return "lol";
+        if (["ascendant", "immortal", "radiant"].includes(tierKey))
+          return "valorant";
+        if (
+          [
+            "ultimate champion",
+            "royal champion",
+            "grand champion",
+            "champion",
+          ].includes(tierKey)
+        )
+          return "clash_royale";
+        return "valorant";
+      }
+
+      function parseRank(raw) {
+        const s = norm(raw).replace(/—|–/g, "-");
+        const [left, right] = s.split("-").map((x) => (x || "").trim());
+        const candidate = left || s;
+
+        const tierRegexes = [
+          { game: "valorant", re: /(radiant|immortal|ascendant|diamond|platinum|gold|silver|bronze|iron)\s*(iv|iii|ii|i)?/ },
+          { game: "lol", re: /(challenger|grandmaster|master|diamond|emerald|platinum|gold|silver|bronze|iron)\s*(iv|iii|ii|i)?/ },
+          { game: "clash_royale", re: /(ultimate champion|royal champion|grand champion|champion|master|challenger)/ },
+        ];
+
+        for (const { re } of tierRegexes) {
+          const m = candidate.match(re);
+          if (m) {
+            const tier = m[1];
+            const div = m[2] || null;
+            const explicitGame = right || s;
+            const resolvedGame = detectGame(explicitGame, norm(tier));
+            return {
+              game: resolvedGame,
+              tier,
+              tierKey: norm(tier),
+              division: div ? norm(div) : null,
+            };
+          }
+        }
+        return null;
+      }
+
+      function computePercentile(meta) {
+        const { game, tierKey, division } = meta;
+        let base;
+        if (game === "lol") base = LOL_TIERS[tierKey];
+        else if (game === "valorant") base = VAL_TIERS[tierKey];
+        else if (game === "clash_royale") {
+          const key = tierKey === "master" ? "master (cr)" : tierKey;
+          base = CR_TIERS[key];
+        }
+        if (typeof base !== "number") return null;
+        let adj = base;
+        if (division && divisionAdjust[division] != null)
+          adj = Math.min(99, base + divisionAdjust[division]);
+        if (adj < 0.05) adj = 0.05;
+        return Number(adj.toFixed(adj < 1 ? 2 : adj < 10 ? 1 : 0));
+      }
+
+      function gameLabel(id) {
+        if (id === "lol") return "League of Legends";
+        if (id === "valorant") return "Valorant";
+        if (id === "clash_royale") return "Clash Royale";
+        return "Jeu";
+      }
+
+      function titleCaseRank(tier, division) {
+        const up = (w) => w.charAt(0).toUpperCase() + w.slice(1);
+        const t = tier.split(" ").map(up).join(" ");
+        if (!division) return t;
+        return `${t} ${division.toUpperCase()}`;
+      }
+
+      function resultStyle(p) {
+        if (p <= 5)
+          return {
+            border: "rgba(234,205,92,.45)",
+            bg: "linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03))",
+            shadow: "0 16px 46px rgba(234,205,92,.28)",
+          };
+        if (p <= 15)
+          return {
+            border: "rgba(101,70,224,.45)",
+            bg: "linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03))",
+            shadow: "0 14px 44px rgba(101,70,224,.22)",
+          };
+        return {
+          border: "rgba(101,70,224,.28)",
+          bg: "linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))",
+          shadow: "0 12px 36px rgba(0,0,0,.45)",
+        };
+      }
+
+      function renderResult(meta, p) {
+        const g = gameLabel(meta.game);
+        const rank = titleCaseRank(meta.tierKey.replace(" (cr)", "") || meta.tier, meta.division);
+        const diff = difficultyLabel(p);
+        const skill = dominantSkill(meta.tierKey);
+        resultTitle.textContent = `Ton rang ${rank} — ${g}`;
+        resultText.textContent = `≈ Top ${p}% des joueurs · Difficulté : ${diff} · Compétence dominante : ${skill}.`;
+        const s = resultStyle(p);
+        resultContainer.style.display = "block";
+        resultContainer.classList.add("show");
+        resultContainer.style.borderColor = s.border;
+        resultContainer.style.background = s.bg;
+        resultContainer.style.boxShadow = `${s.shadow}, 0 0 0 1px rgba(101,70,224,.12) inset`;
+      }
+
+      function renderError(msg) {
+        resultTitle.textContent = "Impossible d’analyser ce rang";
+        resultText.textContent =
+          msg ||
+          "Vérifie le format : ex. “Gold IV – LoL”, “Ascendant – Valorant”, “Ultimate Champion – Clash Royale”.";
+        resultContainer.style.display = "block";
+        resultContainer.classList.add("show");
+      }
+
+      function analyze() {
+        const raw = rankInput.value.trim();
+        if (!raw) return;
+        resultContainer.style.display = "block";
+        resultContainer.classList.add("show");
+        resultTitle.textContent = "Analyse en cours…";
+        resultText.textContent = "Évaluation du rang et comparaison…";
+        setTimeout(() => {
+          const meta = parseRank(raw);
+          if (!meta) return renderError();
+          const pct = computePercentile(meta);
+          if (pct == null) return renderError("Rang non reconnu pour ce jeu.");
+          renderResult(meta, pct);
+        }, 280);
+      }
+
+      analyzeButton.addEventListener("click", analyze);
+      rankInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") analyze();
+      });
+      compareButton.addEventListener("click", () => {
+        rankInput.focus();
+        rankInput.select();
+      });
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
